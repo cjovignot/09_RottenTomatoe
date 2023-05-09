@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Film from './components/film-info'
+import Film from '../components/film-info'
 import React from 'react'
 
 export default function Home() {
