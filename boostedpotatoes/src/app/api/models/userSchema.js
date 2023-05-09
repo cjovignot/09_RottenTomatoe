@@ -16,16 +16,11 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-//   favorites: [
-//     {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: 'User',
-//     },
-//   ],
-//   created_at: {
-//     type: timstamp(),
-//     required: true,
-//   }
+  isAdmin: {
+    type: Boolean,
+    required: false,
+  },
+  favorites: [Object],
 });
 
 module.exports = mongoose.model("Users", UserSchema);
