@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Movie = require('./models/MovieSchema');
+const Movie = require('./models/movieSchema');
 const axios = require('axios');
 var cors = require('cors')
 
