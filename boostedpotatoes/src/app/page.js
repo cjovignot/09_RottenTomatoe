@@ -1,7 +1,9 @@
+"use client"
 import React from "react";
 import Carousel from "./components/indexfavorites";
 
-export default function Home() {
+
+export default function Home({ Component, pageProps }) {
   return (
     <>
       <link href="/dist/output.css" rel="stylesheet" />

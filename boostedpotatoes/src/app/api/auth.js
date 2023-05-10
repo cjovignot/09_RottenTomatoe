@@ -12,7 +12,7 @@ const router = express.Router();
 
 const app = express();
 const mongoUrl = process.env.MONGO_URL;
-const port = 3001;
+const port = 3002;
 
 app.use(cors());
 app.use(bodyParser.json());
