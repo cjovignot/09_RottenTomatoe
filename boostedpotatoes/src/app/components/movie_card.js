@@ -1,10 +1,11 @@
+"use client";
 const Card = ({ movie }) => {
-  const { title, img, release_date, genre } = movie;
+  const { title, poster_path, release_date, genres } = movie;
   return (
     <>
       <div className="card w-96 bg-base-100 shadow-xl m-5">
         <figure>
-          <img src={img} alt={title} />
+          <img src={poster_path} alt={title} />
         </figure>
         <div className="card-body ">
           <h2 className="card-title">
@@ -12,7 +13,7 @@ const Card = ({ movie }) => {
             <div className="badge badge-secondary">{release_date}</div>
           </h2>
           <div className="card-actions justify-end">
-            {genre.map((genre) => (
+            {genres.map((genre) => (
               <div key={genre} className="badge badge-outline">
                 {genre}
               </div>
