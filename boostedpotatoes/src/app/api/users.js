@@ -29,6 +29,7 @@ mongoose.connect(mongoUrl)
   console.error(error);
 });
 
+
 // START GET ALL USERS
 app.get('/users', async (req, res) => {
   User.find()
@@ -44,6 +45,7 @@ app.get('/users', async (req, res) => {
   );
 });
 // END GET ALL USERS
+
 
 // START GET ONE USER BY ID
 app.get('/user/:user_id', async (req, res) => {
@@ -61,10 +63,11 @@ app.get('/user/:user_id', async (req, res) => {
 });
 // END GET ONE USER BY ID
 
+
 // START USER CREATION ROUTE
 app.post('/user', async (req, res) => {
   try {
-    const { username, email, password, isAdmin } = req.body;
+    const { username, email, password, isAdmin, favorites } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
@@ -75,6 +78,7 @@ app.post('/user', async (req, res) => {
       password: hashPassword,
       isAdmin,
       created_at: Date(),
+      favorites,
     });
     
     await newUser.save()
@@ -94,6 +98,7 @@ app.post('/user', async (req, res) => {
   }
 });
 // END USER CREATION ROUTE
+
 
 // START USER DELETE ROUTE
 app.delete('/user_delete/:user_id', async (req, res) => {
@@ -117,6 +122,7 @@ app.delete('/user_delete/:user_id', async (req, res) => {
 });
 // END USER DELETE ROUTE
 
+
 // START USER EDIT ROUTE
 app.put('/user_update/:user_id', async (req, res) => {
   const { username, email, password, isAdmin } = req.body;
@@ -139,6 +145,50 @@ app.put('/user_update/:user_id', async (req, res) => {
     });
 });
 // END USER EDIT ROUTE
+
+
+// START ADD FAVORITE MOVIE
+app.post('/addFavMovie/:user_id', async (req, res) => {
+
+  try {
+    const newFav = req.body;
+    const id = req.params.user_id;
+  
+    const user = await User.findById(id)
+
+    favorites = user.favorites.push(newFav);
+
+    const updatedUser = await user.save();
+    res.json({
+      updatedUser,
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+
+});
+// END ADD FAVORITE MOVIE
+
+
+// START DELETE FAVORITE MOVIE
+app.delete('/FavMovie_delete/:user_id', async (req, res) => {
+
+  const favId = req.body;
+  const id = req.params.user_id;
+
+  const user = await User.findById(id)
+
+  newFavorites = user.favorites.pop(favId);
+
+  const updatedUser = await user.save();
+  res.json({
+    updatedUser,
+  });
+
+});
+// END DELETE FAVORITE MOVIE
 
 module.exports = app;
 

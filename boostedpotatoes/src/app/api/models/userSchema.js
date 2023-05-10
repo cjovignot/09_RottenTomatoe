@@ -20,7 +20,14 @@ const UserSchema = new Schema({
     type: Boolean,
     required: false,
   },
-  favorites: [Object],
+  favorites: [
+    {
+      title: String,
+      poster_path: String,
+      release_date: String,
+      genres: [String],
+    }
+  ],
 });
 
 module.exports = mongoose.model("Users", UserSchema);
