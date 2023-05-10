@@ -96,7 +96,7 @@ app.post('/user', async (req, res) => {
 // END USER CREATION ROUTE
 
 // START USER DELETE ROUTE
-app.use('/user_delete/:user_id', async (req, res) => {
+app.delete('/user_delete/:user_id', async (req, res) => {
   console.log(req.params.user_id)
   User.deleteOne({
     _id: req.params.user_id
@@ -118,7 +118,7 @@ app.use('/user_delete/:user_id', async (req, res) => {
 // END USER DELETE ROUTE
 
 // START USER EDIT ROUTE
-app.use('/user_update/:user_id', async (req, res) => {
+app.put('/user_update/:user_id', async (req, res) => {
   const { username, email, password, isAdmin } = req.body;
   const editUser = {
     username,
