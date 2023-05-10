@@ -203,7 +203,7 @@ app.post('/movie', async (req, res) => {
 
   try {
     const savedMovie = await movie.save();
-    res.status(201).json("movie created succesfully",savedMovie);
+    res.status(201).json(savedMovie);
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error');
