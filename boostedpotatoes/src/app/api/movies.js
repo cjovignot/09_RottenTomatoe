@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const Movie = require('./models/movieSchema');
-const axios = require('axios');
-var cors = require('cors')
-
-=======
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const Movie = require("./models/movieSchema");
 const axios = require("axios");
 var cors = require("cors");
->>>>>>> main
 
 const app = express();
 app.use(cors());
