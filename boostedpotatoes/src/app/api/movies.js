@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Movie = require('./models/MovieSchema');
+const Movie = require('./models/movieSchema');
 const axios = require('axios');
 var cors = require('cors')
 
@@ -70,7 +70,7 @@ async function getMovieTrailer(movieId) {
     const videoData = response.data;
     videoData.results = videoData.results.find(video => video.name == "Official Trailer");
     if (videoData.results.key) {
-             videoData.results.key = `https://www.youtube.com/watch?v=${videoData.results.key}`;
+             videoData.results.key = `https://www.youtube.com/embed/${videoData.results.key}`;
              }
     return  videoData.results;
   } catch (error) {
