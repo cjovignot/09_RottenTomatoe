@@ -18,7 +18,7 @@ const Login = ({ isLogged, setIsLogged }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3002/login", {
+      const response = await axios.post("http://localhost:3003/login", {
         email,
         password,
       });

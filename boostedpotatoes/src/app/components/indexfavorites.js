@@ -1,67 +1,43 @@
 import React from "react";
+import Link from "next/link";
+import axios from "axios";
 
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
+async function fetchData() {
+  try {
+    const response = await axios.get("http://localhost:3002/movies/1", {
+      cache: "no-store",
+    });
+    const data = await response.data;
+    console.log("Fetched movies carousel:", data);
+    return data;
+  } catch (error) {
+    console.error("Fetch error", error);
+  }
+}
 
-function Carousel() {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-  };
-
+const Carousel = async () => {
+  console.log("mon carousel");
+  const data = await fetchData();
   return (
-    <div className="carousel rounded-box">
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg"
-          alt="Burger"
-        />
-      </div>
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg"
-          alt="Burger"
-        />
-      </div>
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.jpg"
-          alt="Burger"
-        />
-      </div>
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1494253109108-2e30c049369b.jpg"
-          alt="Burger"
-        />
-      </div>
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.jpg"
-          alt="Burger"
-        />
-      </div>
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg"
-          alt="Burger"
-        />
-      </div>
-      <div className="carousel-item">
-        <img
-          src="https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg"
-          alt="Burger"
-        />
+    <div className="carouselcontainer">
+      <div className="carousel rounded-box m-5">
+        {data?.movies ? (
+          data.movies.map((movie) => (
+            <div
+              className="carousel-item mr-2 w-48 hover:scale-105 transition duration-500"
+              key={movie._id}
+            >
+              <Link href={`/unit_view/${movie._id}`}>
+                <img src={movie.poster_path} alt="Burger" />
+              </Link>
+            </div>
+          ))
+        ) : (
+          <button className="btn loading text-center">loading</button>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default Carousel;

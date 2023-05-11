@@ -18,10 +18,32 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  width: 86%;
+  justify-content: center;
+}
+
+.carouselcontainer {
+
+  margin-left: auto;
+  margin-right: auto;
+  width: 86%;
+}
+
+.paginationindex {
+  display: flex;
+  margin: auto;
+  width: 15%;
+  align-items: center;
+  text-align: center;
+
 }
