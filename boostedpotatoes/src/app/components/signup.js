@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Signup = () => {
 
   const [email, setEmail] = useState("");
@@ -18,9 +21,11 @@ const Signup = () => {
         password,
       });
       console.log(response);
+      toast.success('SignUp successful, please LogIn')
       setErrorMessage("");
       setIsModalOpen(false); // Close modal on successful response
     } catch (error) {
+      toast.error('SignUp Failed')
       console.error("Signup failed:", error);
       setErrorMessage("Signup failed. Email and Username must be unique");
     }

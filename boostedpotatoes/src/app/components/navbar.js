@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "../components/login";
 import Signup from "../components/signup";
 import Cookies from "js-cookie";
@@ -8,6 +8,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
+
+  useEffect(() => {
+    const userId = Cookies.get("userId");
+    if (userId) {
+      setIsLogged(true);
+    }
+  }, []);
+
   const [isLogged, setIsLogged] = useState(false);
   const handleLogout = () => {
     Cookies.remove("userId");
@@ -18,7 +26,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">Boosted Potato</a>
+        <a href="/" className="btn btn-ghost normal-case text-xl">Boosted Potato</a>
       </div>
 
       <div className="flex-none gap-2">
@@ -29,13 +37,7 @@ const Navbar = () => {
             className="input input-bordered"
           />
         </div>
-        {!isLogged && (
-          <label htmlFor="my-modal-signup" className="btn">
-            Sign up
-          </label>
-        )}
 
-        <Signup />
 
         {isLogged ? (
           <div className="dropdown dropdown-end">
@@ -49,10 +51,10 @@ const Navbar = () => {
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a className="justify-between">Profile</a>
+                <a href="/profile" className="justify-between">Profile</a>
               </li>
               <li>
-                <a>Settings</a>
+                <a href="/settings">Settings</a>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>
@@ -65,6 +67,12 @@ const Navbar = () => {
               Login
             </label>
             <Login isLogged={isLogged} setIsLogged={setIsLogged} />
+
+            
+            <label htmlFor="my-modal-signup" className="btn">
+              Sign up
+            </label>
+            <Signup />
           </>
         )}
       </div>
