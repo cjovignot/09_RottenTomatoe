@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-200 fixed top-0 w-full z-50">
       <div className="flex-1">
         <a href="/" className="btn btn-ghost normal-case text-xl">Boosted Potato</a>
       </div>

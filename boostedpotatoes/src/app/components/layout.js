@@ -8,11 +8,16 @@ import { ToastContainer, toast } from 'react-toastify';
 export default function Layout({ children }) {
 
   return (
-    <>
-      <Navbar />
-      <main>{children}</main>
+    <><nav>
+      <Navbar/>
+      </nav>
+      <main>{
+      children}
       <ToastContainer />
+      </main>
+      <footer>
       <Footer />
+      </footer>
     </>
   );
 }
