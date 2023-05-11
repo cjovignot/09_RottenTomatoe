@@ -1,6 +1,6 @@
-"use client"
+// "use client"
 import React from 'react'
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 const axios = require('axios');
 
@@ -8,28 +8,27 @@ const axios = require('axios');
 
 
 
-export default function Film() {
+export default async function Film() {
 
-    const [details, setDetails] = useState([]);
+    
 
-    async function fetchMovieDetails() {
-        let url = 'http://localhost:3002/movie/645b778be2f6077db99809fb';
-
+    const fetchMovieDetails = async () => {
+        const url = 'http://localhost:3002/movie/645b778be2f6077db99809fb';
+      
         try {
-
-            const response = await axios.get(url);
-            console.log(response);
-            setDetails(response.data.movie);
-            console.log(details);
+          const response = await axios.get(url);
+          console.log(response);
+          const results = response.data.movie
+          return results;
         } catch (error) {
-            console.error(error);
-            setDetails(`Error retrieving movie details`)
+          console.error(error);
+          
         }
-    }
+      };
 
-    useEffect(() => {
-        fetchMovieDetails();
-    }, [])
+        const details = await fetchMovieDetails();
+
+  
 
     return (
 
@@ -37,8 +36,8 @@ export default function Film() {
             <div>
                 <div className="flex items-center ">
                     <h1 className="text-5xl font-bold"> {details.title} </h1>
-                    <div className="flex">
-                        <div>
+                    <div className="flex m-auto">
+                        <div className= "mr-24">
                             <h1>Rating</h1>
                             <div className="flex items-center">
                                 <img className="w-8 ..." src="https://www.freepnglogos.com/uploads/star-png/star-vector-png-transparent-image-pngpix-21.png" alt="star" />
