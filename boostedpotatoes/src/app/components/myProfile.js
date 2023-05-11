@@ -1,36 +1,45 @@
-import React from "react";
+"use client"
+import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import Cookies from "js-cookie";
 
-async function fetchData() {
+const myProfile = () => {
+    const [userData, setUserData] = useState(null);
+    const [userId, setUserId] = useState('');
 
-    const userId = Cookies.get("userId");
-    console.log(userId)
-    if (userId) {
-      setIsLogged(true);
-      setIsLoading(false);
-    }
+    useEffect(() => {
+        const user = Cookies.get("userId");
+        // console.log(user);
+        setUserId(user);
+    }, []);
 
-    // try {
-    //   const response = await axios.get("http://localhost:3001/user/" + userId, {
-    //   });
-    //   const data = await response.data;
-    //   console.log("Data user: ", data);
-    //   return data;
-    // } catch (error) {
-    //   console.error("Fetch error", error);
-    // }
-}
-  
-const myProfile = async () => {
+    useEffect(() => {
+        const fetchData = async () => {
+            if (userId) {
+                try {
+                    const response = await axios.get(`http://localhost:3001/user/${userId}`)
+                    const data = await response.data[0];
+                    // console.log("User data", data);
+                    setUserData(data)
+                } catch (error) {
+                    console.error("Fetch error", error);
+                }
+            }
+        };
 
-    const data = await fetchData();
+        fetchData();
+    }, [userId]);
+
 
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
             <div className="card-body">
-                <h2 className="card-title">Hi machin !</h2>
-                <p>Email :</p>
-                <p>Password :</p>
+                <h2 className="card-title justify-center">Hi {userData?.username} !</h2>
+                <div className="flex-col text-start mt-2">
+                    <p><b>Email :</b> {userData?.email}</p>
+                    <p><b>Number of favorite movies :</b> {userData?.favorites.length}</p>
+                </div>
+            <label htmlFor="my-modal-editprofile" className="btn btn-primary m-4">Edit profile</label>
             </div>
         </div>
     );
