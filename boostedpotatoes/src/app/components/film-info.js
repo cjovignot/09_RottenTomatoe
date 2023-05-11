@@ -1,7 +1,5 @@
-// "use client"
-import React from 'react'
-// import { useEffect, useState } from "react";
-
+"use client"
+import React from 'react';
 const axios = require('axios');
 
 
@@ -10,6 +8,7 @@ const axios = require('axios');
 
 export default async function Film() {
 
+    
     
 
     const fetchMovieDetails = async () => {
@@ -68,7 +67,7 @@ export default async function Film() {
                 <div>
                     <h1 className="text-5xl font-bold">Genre</h1>
                     {details.genres?.map((genre) => (
-                        <p className="badge badge-outline" key={genre.id}>{genre}</p>
+                        <p className="badge badge-outline mr-8" key={genre.id}>{genre}</p>
                     ))}
                 </div>
                 <div>
@@ -79,9 +78,11 @@ export default async function Film() {
                     <h1 className="text-5xl font-bold">Stars</h1>
                     {details.cast?.map(({ name, character, profile_path }) => (
                         <div key={name} className='flex items-center justify-evenly'>
+                            <img  className="w-24 rounded-full"src={profile_path} alt="" />
+                            <div className="flex">
                         <p className="py-6">{name}</p>
                         <p className="py-6">{character}</p>
-                        <img  className="w-24 rounded-full"src={profile_path} alt="" />
+                        </div>
                         </div>
                     ))};
                    
