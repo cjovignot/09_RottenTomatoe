@@ -258,18 +258,75 @@ app.post('/comment/:movie_id', async (req, res) => {
  try {
   const movie = await Movie.findById(id);
 
-  Comments = movie.comments.push(newComment);
+  movie.comments.push(newComment);
 
-  const updatedMovie = await movie.save();
+  const comments = movie.comments
+  
+  await movie.save();
 
   res.json({
-    updatedMovie,
+    message: 'Comment added succesfully',
+    comments,
   });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error creating comment ...");
   }
 
+});
+
+
+// delete a comment
+
+app.delete('/comment/:movie_id/:comment_id', async (req, res) => {
+  const movieId = req.params.movie_id;
+  const commentId = req.params.comment_id;
+  try {
+    const movie = await Movie.findById(movieId);
+    const commentIndex = movie.comments.findIndex((comment) => comment._id.toString() === commentId);
+    if (commentIndex === -1) {
+      return res.status(404).send("No comment found.");
+    }
+    movie.comments.splice(commentIndex, 1);
+    const commentsList = movie.comments;
+    await movie.save();
+    res.json({
+      message: 'Comment deleted successfully',
+      commentsList,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error deleting comment ...");
+  }
+});
+
+// update a comment 
+
+app.put('/comment/:movie_id/:comment_id', async (req, res) => {
+  const movieId = req.params.movie_id;
+  const commentId = req.params.comment_id;
+  const updatedComment = req.body;
+
+  try {
+    const movie = await Movie.findById(movieId);
+    const commentIndex = movie.comments.findIndex((comment) => comment._id.toString() === commentId);
+    
+    if (commentIndex === -1) {
+      return res.status(404).send("No comment found.");
+    }
+
+    movie.comments[commentIndex] = updatedComment;
+
+    await movie.save();
+
+    res.json({
+      message: 'Comment updated successfully',
+      updatedComment,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating comment ...");
+  }
 });
 
 const port = 3002;
