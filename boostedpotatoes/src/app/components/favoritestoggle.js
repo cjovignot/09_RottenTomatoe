@@ -1,11 +1,13 @@
 "use client";
 import Cookies from "js-cookie";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 const axios = require("axios");
 
 const FavToggle = ({ movie }) => {
   const [isFav, setIsFav] = useState(false);
-
+  const { isLogged } = useContext(AuthContext);
   useEffect(() => {
     const fetchData = async () => {
       const userIdFromCookie = Cookies.get("userId");
@@ -15,12 +17,11 @@ const FavToggle = ({ movie }) => {
             `http://localhost:3001/user/${userIdFromCookie}`
           );
           const favUser = response.data[0].favorites;
-          console.log("MON ARRAY DE FAV => ", response.data[0].favorites);
-          //   Check if movieID is in the favUser array
+          //   console.log("MON ARRAY DE FAV => ", response.data[0].favorites);
           const isMovieInFavorites = favUser.some(
             (favorite) => favorite._id === movie._id
           );
-          console.log("CEST UN FAV OUPAS ?= >", isMovieInFavorites);
+          //   console.log("CEST UN FAV OUPAS ?= >", isMovieInFavorites);
           setIsFav(isMovieInFavorites);
         } catch (error) {
           console.error("Error:", error);
@@ -28,8 +29,13 @@ const FavToggle = ({ movie }) => {
       }
     };
 
-    fetchData();
-  }, [movie]);
+    if (isLogged) {
+      // Add this condition
+      fetchData();
+    } else {
+      setIsFav(false); // Reset the isFav state if the user is not logged in
+    }
+  }, [movie, isLogged]);
 
   const handleFavToggle = async () => {
     console.log("je toggle");
@@ -39,7 +45,6 @@ const FavToggle = ({ movie }) => {
         const url = `http://localhost:3001/user/${userIdFromCookie}`;
         const urladd = `http://localhost:3001/addFavMovie/${userIdFromCookie}`;
         const urldelete = `http://localhost:3001/FavMovie_delete/${userIdFromCookie}`;
-        // Extract the required movie attributes
         const movieAttributes = {
           _id: movie._id,
           title: movie.title,
@@ -50,10 +55,8 @@ const FavToggle = ({ movie }) => {
         console.log("MY MOVIE TOGGLE =>", movieAttributes);
 
         if (isFav) {
-          // Remove the movie from favorites
           await axios.delete(urldelete, { data: movieAttributes });
         } else {
-          // Add the movie to favorites
           await axios.post(urladd, movieAttributes);
         }
         setIsFav(!isFav);
@@ -64,13 +67,17 @@ const FavToggle = ({ movie }) => {
   };
 
   return (
-    <div onClick={handleFavToggle}>
-      {isFav ? (
-        <img src="red-heart.svg" style={{ width: 30 + "px" }}></img>
-      ) : (
-        <img src="white-heart.png" style={{ width: 30 + "px" }}></img>
+    <>
+      {isLogged && (
+        <div onClick={handleFavToggle}>
+          {isFav ? (
+            <img src="red-heart.svg" style={{ width: 30 + "px" }}></img>
+          ) : (
+            <img src="white-heart.png" style={{ width: 30 + "px" }}></img>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
