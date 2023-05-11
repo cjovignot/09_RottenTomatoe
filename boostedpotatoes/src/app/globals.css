@@ -48,3 +48,23 @@ body {
   text-align: center;
 
 }
+
+.swap {
+  position: relative;
+  display: inline-block;
+}
+
+.swap img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+}
+
+.swap-off {
+  display: none;
+}
+
+.swap-on {
+  display: block;
+}
