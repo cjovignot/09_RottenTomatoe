@@ -5,7 +5,7 @@ export default function Admin() {
   return (
     <>
       <link href="/dist/output.css" rel="stylesheet" />
-      <TableDiplsay/>
+      <TableDiplsay />
     </>
   );
 }
