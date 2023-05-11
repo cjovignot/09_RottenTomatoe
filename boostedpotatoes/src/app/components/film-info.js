@@ -68,8 +68,8 @@ export default async function Film() {
                 <div>
                     <h1 className="text-5xl font-bold">Genre</h1>
                     {details.genres?.map((genre) => (
-                        <p className="py-6" key={genre.id}>{genre}</p>
-                    ))};
+                        <p className="badge badge-outline" key={genre.id}>{genre}</p>
+                    ))}
                 </div>
                 <div>
                     <h1 className="text-5xl font-bold">Director</h1>
