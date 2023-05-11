@@ -8,25 +8,54 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
+  const [isLogged, setIsLogged] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const userId = Cookies.get("userId");
     if (userId) {
       setIsLogged(true);
+      setIsLoading(false);
     }
   }, []);
 
-  const [isLogged, setIsLogged] = useState(false);
   const handleLogout = () => {
     Cookies.remove("userId");
     setIsLogged(false);
     toast.success('Logout successful')
   };
 
+  if (isLoading) {
+    return (
+      <>
+          <div className="navbar bg-base-100">
+            <div className="flex-1">
+              <a href="/" className="btn btn-ghost normal-case text-xl font-sans"><img className="w-12 h-12 mr-3" src="Rotten.png"/>Boosted Potato</a>
+            </div>
+
+            <div className="flex-none gap-2">
+              <div className="form-control">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  className="input input-bordered"
+                />
+              </div>
+
+              <button className="btn loading text-center btn btn-ghost btn-circle avatar"></button>
+
+            </div>
+          </div>
+
+
+      </>
+    )
+  }
+
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a href="/" className="btn btn-ghost normal-case text-xl">Boosted Potato</a>
+        <a href="/" className="btn btn-ghost normal-case text-xl font-sans"><img className="w-12 h-12 mr-3" src="Rotten.png"/>Boosted Potato</a>
       </div>
 
       <div className="flex-none gap-2">
