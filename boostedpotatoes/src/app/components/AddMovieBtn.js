@@ -2,6 +2,9 @@
 
 import React from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AddMovie = ({ movie }) => {
   const addMovieToDb = async () => {
     const movieData = {
@@ -27,9 +30,9 @@ const AddMovie = ({ movie }) => {
     });
 
     if (!res.ok) { 
-        return alert('Movie allready exists');
+         return toast.warning('Movie allready added')
     }
-    alert('Movie added successfully');
+     return toast.success('Movie '+ movie.title +' added')
   };
 
   return <button className='btn' onClick={addMovieToDb}>+</button>;

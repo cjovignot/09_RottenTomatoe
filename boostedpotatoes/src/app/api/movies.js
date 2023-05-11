@@ -76,7 +76,7 @@ async function getMovieTrailer(movieId) {
       (video) => video.name == "Official Trailer"
     );
     if (videoData.results.key) {
-      videoData.results.key = `https://www.youtube.com/watch?v=${videoData.results.key}`;
+      videoData.results.key = `https://www.youtube.com/embed/${videoData.results.key}`;
     }
     return videoData.results;
   } catch (error) {
