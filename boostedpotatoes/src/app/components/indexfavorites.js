@@ -49,7 +49,7 @@ const Carousel = () => {
               className="carousel-item mr-2 w-48 hover:scale-105 transition duration-500"
               key={movie._id}
             >
-              <Link href={`/unit_view/${movie._id}`}>
+              <Link href={`/movieunit/${movie._id}`}>
                 <img src={movie.poster_path} alt="Burger" />
               </Link>
             </div>
