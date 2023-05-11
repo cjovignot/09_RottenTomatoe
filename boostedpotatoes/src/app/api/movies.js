@@ -248,6 +248,30 @@ app.delete("/movie/:id", async (req, res) => {
   }
 });
 
+// create a new comment
+
+app.post('/comment/:movie_id', async (req, res) => {
+
+  const newComment = req.body;
+  const id = req.params.movie_id;
+
+ try {
+  const movie = await Movie.findById(id);
+
+  Comments = movie.comments.push(newComment);
+
+  const updatedMovie = await movie.save();
+
+  res.json({
+    updatedMovie,
+  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error creating comment ...");
+  }
+
+});
+
 const port = 3002;
 app.listen(port, () => {
   console.log(`API User Started on port ${port}`);
