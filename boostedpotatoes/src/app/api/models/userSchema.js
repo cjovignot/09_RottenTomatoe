@@ -22,6 +22,7 @@ const UserSchema = new Schema({
   },
   favorites: [
     {
+      _id: String,
       title: String,
       poster_path: String,
       release_date: String,
