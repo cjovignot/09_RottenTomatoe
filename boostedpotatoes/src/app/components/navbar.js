@@ -16,12 +16,16 @@ const Navbar = () => {
     if (userId) {
       setIsLogged(true);
       setIsLoading(false);
+    } else if (!userId) {
+      setIsLogged(false);
+      setIsLoading(false);
     }
   }, []);
 
   const handleLogout = () => {
     Cookies.remove("userId");
     setIsLogged(false);
+    setIsLoading(false);
     toast.success('Logout successful')
   };
 
@@ -41,13 +45,9 @@ const Navbar = () => {
                   className="input input-bordered"
                 />
               </div>
-
               <button className="btn loading text-center btn btn-ghost btn-circle avatar"></button>
-
             </div>
           </div>
-
-
       </>
     )
   }
