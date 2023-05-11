@@ -21,6 +21,8 @@
     "mongoose": "^7.1.0",
     "next": "13.4.1",
     "node-dev": "^8.0.0",
+    "nodaemon": "^0.0.5",
+    "nodemon": "^2.0.22",
     "postcss": "8.4.23",
     "react": "18.2.0",
     "react-dom": "18.2.0",
