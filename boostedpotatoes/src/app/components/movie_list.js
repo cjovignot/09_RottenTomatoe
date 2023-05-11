@@ -41,6 +41,7 @@ const MovieList = () => {
 
   useEffect(() => {
     fetchData(pageNbr);
+     window.scrollTo(0, 390);
   }, [pageNbr]);
 
   return (
