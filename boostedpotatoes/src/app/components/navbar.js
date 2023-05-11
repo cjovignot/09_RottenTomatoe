@@ -1,32 +1,78 @@
-"use client"
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState, useEffect, useContext } from "react";
 import Login from "../components/login";
 import Signup from "../components/signup";
 import Cookies from "js-cookie";
+import Link from "next/link";
+import { AuthContext } from "../context/AuthContext"; // Add this import
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const { isLogged, setIsLogged } = useContext(AuthContext); // Add this line
+
+  useEffect(() => {
+    const userId = Cookies.get("userId");
+    setIsLogged(!!userId);
+  }, []);
 
   useEffect(() => {
     const userId = Cookies.get("userId");
     if (userId) {
       setIsLogged(true);
+      setIsLoading(false);
+    } else if (!userId) {
+      setIsLogged(false);
+      setIsLoading(false);
     }
   }, []);
 
-  const [isLogged, setIsLogged] = useState(false);
   const handleLogout = () => {
     Cookies.remove("userId");
     setIsLogged(false);
-    toast.success('Logout successful')
+    setIsLoading(false);
+    toast.success("Logout successful");
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <div className="navbar bg-base-100">
+          <div className="flex-1">
+            <Link
+              href="/"
+              className="btn btn-ghost normal-case text-xl font-sans"
+            >
+              <img className="w-12 h-12 mr-3" src="Rotten.png" />
+              Boosted Potato
+            </Link>
+          </div>
+
+          <div className="flex-none gap-2">
+            <div className="form-control">
+              <input
+                type="text"
+                placeholder="Search"
+                className="input input-bordered"
+              />
+            </div>
+            <button className="btn loading text-center btn btn-ghost btn-circle avatar"></button>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="navbar bg-base-200 fixed top-0 w-full z-50">
       <div className="flex-1">
-        <a href="/" className="btn btn-ghost normal-case text-xl">Boosted Potato</a>
+        <a href="/" className="btn btn-ghost normal-case text-xl font-sans">
+          <img className="w-12 h-12 mr-3" src="Rotten.png" />
+          Boosted Potato
+        </a>
       </div>
 
       <div className="flex-none gap-2">
@@ -37,7 +83,6 @@ const Navbar = () => {
             className="input input-bordered"
           />
         </div>
-
 
         {isLogged ? (
           <div className="dropdown dropdown-end">
@@ -51,10 +96,12 @@ const Navbar = () => {
               className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a href="/profile" className="justify-between">Profile</a>
+                <Link href="/profile" className="justify-between">
+                  Profile
+                </Link>
               </li>
               <li>
-                <a href="/settings">Settings</a>
+                <Link href="/settings">Admin</Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>
@@ -68,7 +115,6 @@ const Navbar = () => {
             </label>
             <Login isLogged={isLogged} setIsLogged={setIsLogged} />
 
-            
             <label htmlFor="my-modal-signup" className="btn">
               Sign up
             </label>

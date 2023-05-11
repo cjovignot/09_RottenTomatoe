@@ -13,22 +13,50 @@ const Signup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // New state variable
 
   const handleSignup = async (e) => {
+
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3001/user", {
-        username,
-        email,
-        password,
-      });
-      console.log(response);
-      toast.success('SignUp successful, please LogIn')
-      setErrorMessage("");
-      setIsModalOpen(false); // Close modal on successful response
-    } catch (error) {
-      toast.error('SignUp Failed')
-      console.error("Signup failed:", error);
-      setErrorMessage("Signup failed. Email and Username must be unique");
+
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
     }
+    if (validateEmail(email)) {
+      setErrorMessage("");
+
+      function validatePassword(password) {
+        const passwordRegex = /^(?=.*\d)(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+        return passwordRegex.test(password);
+      }
+      if (validatePassword(password)) {
+        setErrorMessage("");
+        console.log("Password is valid");
+
+      try {
+        const response = await axios.post("http://localhost:3001/user", {
+          username,
+          email,
+          password,
+        });
+  
+        console.log(response);
+        toast.success('SignUp successful, please LogIn')
+        setErrorMessage("");
+        setIsModalOpen(false); // Close modal on successful response
+      } catch (error) {
+        toast.error('SignUp Failed')
+        console.error("Signup failed:", error);
+        setErrorMessage("Signup failed, check your password and email");
+      }
+      
+    } else {
+      setErrorMessage("Password must contain at least 8 characters long, contain at least one digit, and contain at least one uppercase letter.");
+      console.log("Password is invalid");
+    }
+    } else {
+      setErrorMessage("Email is invalid");
+      console.log("Email is invalid");
+    }
+
   };
 
   return (

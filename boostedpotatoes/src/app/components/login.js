@@ -1,20 +1,17 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const axios = require('axios');
+const axios = require("axios");
 
 const Login = ({ isLogged, setIsLogged }) => {
-
-
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -27,13 +24,12 @@ const Login = ({ isLogged, setIsLogged }) => {
       Cookies.set("userId", user_id);
       setIsLogged(true);
 
-      toast.success('Login successful')
+      toast.success("Login successful");
       document.getElementById("my-modal-login").checked = false;
-
     } catch (error) {
       console.error("Login failed:", error);
       setErrorMessage("Login failed. Please check your email and password.");
-      toast.error('Login failed')
+      toast.error("Login failed");
     }
   };
 
@@ -77,12 +73,16 @@ const Login = ({ isLogged, setIsLogged }) => {
               <label
                 htmlFor="my-modal-login"
                 className="btn btn-outline btn-error"
-              >Cancel</label>
+              >
+                Cancel
+              </label>
               <button
                 type="submit"
                 htmlFor="my-modal-login"
                 className="btn btn-outline btn-success"
-              >Login</button>
+              >
+                Login
+              </button>
             </div>
           </form>
         </div>
