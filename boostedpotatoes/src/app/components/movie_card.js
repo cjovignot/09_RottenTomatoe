@@ -12,11 +12,13 @@ const Card = ({ movie }) => {
   return (
     <>
       <div className="card w-96 bg-base-100 shadow-xl m-5 h-110 hover:scale-105 transition duration-500 relative">
-        <div className="absolute bottom-100 right-0 m-2">
+        <div className="absolute bottom-100 right-0 m-2 z-50">
           <Favorite key={movie._id} movie={movie} />
         </div>
         <Link key={_id} href={`/movieunit/${_id}`}>
+            <figure className='z-10'>
           <LazyLoadImage className='rounded-t-xl' alt={title} src={poster_path} height={560}  effect="blur"/>
+          </figure>
           <div className="card-body text-center h-40">
             <h2 className="card-title self-center">{title}</h2>
 
