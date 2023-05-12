@@ -12,11 +12,11 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Navbar = () => {
+const Navbar = ({router}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [navbarVisible, setNavbarVisible] = useState(true);
-  
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,6 +59,7 @@ const Navbar = () => {
     setIsLogged(false);
     setIsLoading(false);
     toast.success("Logout successful");
+    router.push("/");
   };
 
   if (isLoading) {
