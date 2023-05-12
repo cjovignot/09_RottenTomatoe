@@ -52,6 +52,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     Cookies.remove("userId");
+    Cookies.remove("isAdmin");
     setIsLogged(false);
     setIsLoading(false);
     toast.success("Logout successful");
@@ -66,7 +67,7 @@ const Navbar = () => {
               href="/"
               className="btn btn-ghost normal-case text-xl font-sans"
             >
-              <img className="w-12 h-12 mr-3" src="Rotten.png" />
+              <img className="w-12 h-12 mr-3" src="/Rotten.png" />
               Boosted Potato
             </Link>
           </div>
@@ -90,7 +91,7 @@ const Navbar = () => {
     <div id="navbar" className={...navbarVisible ? 'visible' : 'hidden'}>
       <div className="flex-1">
         <a href="/" className="btn btn-ghost normal-case text-xl font-sans">
-          <img className="w-12 h-12 mr-3" src="Rotten.png" />
+          <img className="w-12 h-12 mr-3" src="/Rotten.png" />
           Boosted Potato
         </a>
       </div>
