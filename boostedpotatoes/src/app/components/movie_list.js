@@ -6,6 +6,7 @@ import Link from "next/link";
 import axios from "axios";
 
 const MovieList = () => {
+  
   const [pageNbr, setPageNbr] = useState(1);
   const [movies, setMovies] = useState(null);
 
