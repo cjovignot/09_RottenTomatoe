@@ -91,7 +91,7 @@ const MovieList = () => {
   {pageNumbers.map(number => (
     <button
       key={number}
-      className={`btn m-2 ${pageNbr === number ? 'active' : ''}`}
+      className={`btn m-2 ${pageNbr === number ? 'bg-white text-black' : ''}`}
       onClick={() => setPageNbr(number)}
     >
       {number}
