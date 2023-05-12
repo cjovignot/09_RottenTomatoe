@@ -13,11 +13,12 @@ export default function Home() {
     <div>
       {/* <link href="/dist/output.css" rel="stylesheet" /> */}
 
-      <div className="flex-col hero-content text-center">
-        <div className="max-w-md">
+      <div className="flex-col hero-content text-center m-auto">
+        <div className="m-auto">
           <Profile />
           <EditProfile />
         </div>
+      </div>
         <FavoriteContext.Provider
           value={{ favoriteChanged, setFavoriteChanged }}
         >
@@ -25,7 +26,6 @@ export default function Home() {
           {/* Wrap UserFavorites with FavoriteContext.Provider */}
           <UserFavorites />
         </FavoriteContext.Provider>
-      </div>
     </div>
   );
 }
