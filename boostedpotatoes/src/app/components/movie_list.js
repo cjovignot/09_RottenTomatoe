@@ -7,6 +7,7 @@ import axios from "axios";
 import { useSearchParams } from 'next/navigation';
 
 const MovieList = () => {
+  
   const [pageNbr, setPageNbr] = useState(1);
   const [movies, setMovies] = useState(null);
   const searchParams = useSearchParams();

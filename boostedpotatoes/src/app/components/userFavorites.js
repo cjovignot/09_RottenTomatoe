@@ -47,7 +47,7 @@ const UserFavorites = () => {
     <>
       <div className="movie-list">
         {movies ? (
-          movies.map((movie, i) => <Card movie={movie} />)
+          movies.map((movie, i) => <Card key={i} movie={movie} />)
         ) : (
           <button className="btn loading text-center">loading</button>
         )}
