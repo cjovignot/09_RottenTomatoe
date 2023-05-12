@@ -15,8 +15,8 @@ const SearchBar = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (searchTerm.trim() !== '') {
-    //   router.replace(`/?search=${searchTerm}`);
       router.push(`/?search=${searchTerm}`);
+      setSearchTerm('');
     } else {
       toast.error('Please enter a search term');
     }

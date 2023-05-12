@@ -1,11 +1,13 @@
 import React from "react";
-import TableDiplsay from "../components/AdminMovie";
+import TableDisplay from "../components/AdminMovie";
+import UserDisplay from "../components/AdminUser";
 
 export default function Admin() {
   return (
     <>
       <link href="/dist/output.css" rel="stylesheet" />
-      <TableDiplsay />
+      <UserDisplay />
+      <TableDisplay />
     </>
   );
 }

@@ -1,20 +1,79 @@
 "use client"
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import { useSearchParams } from 'next/navigation';
 
-function rateMovie() {
+const Rating = ({ id }) => {
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [rated, setRated] = useState(false);
+  
 
 
-    return (
-        <div className="rating rating-md">
-            <input type="radio" name="rating-7" className="mask mask-star-2 bg-orange-400" />
-            <input type="radio" name="rating-7" className="mask mask-star-2 bg-orange-400" checked />
-            <input type="radio" name="rating-7" className="mask mask-star-2 bg-orange-400" />
-            <input type="radio" name="rating-7" className="mask mask-star-2 bg-orange-400" />
-            <input type="radio" name="rating-7" className="mask mask-star-2 bg-orange-400" />
-        </div>
-    );
+  const handleRatingClick = async (rating) => {
+    try {
+      const response = await axios.put(`http://localhost:3002/rate/${id}/${rating}`);
+      console.log(rating);
+      console.log(response);
+      setRated(true);
+    } catch (error) {
+      console.error(error);
+      // Handle error or update UI accordingly
+    }
+  };
+
+  return (
+    <div>
+      <h2>Rate the movie:</h2>
+      <div>
+        {[2, 4, 6, 8, 10].map((rating) => (
+          <span
+            key={rating}
+            className={`star ${selectedRating === rating ? 'selected' : ''}`}
+            onClick={() => handleRatingClick(rating)}
+            onMouseEnter={() => setSelectedRating(rating)}
+            onMouseLeave={() => setSelectedRating(0)}
+            style={{
+              color: selectedRating >= rating ? 'orange' : 'white',
+              cursor: 'pointer',
+            }}
+          >
+
+            &#9733;
+          </span>
+        ))}
+      </div>
+      {rated && <p>Thank you !</p>}
+    </div>
+  );
 };
+
+export default Rating;
+
+// export function RateMovie() {
+
+//     const [rating, setRating] = useState(0)
+  
+//     // Catch Rating value
+//     const handleRating = (rate) => {
+//       setRating(rate)
+  
+//       // other logic
+//     }
+//     // Optinal callback functions
+//     const onPointerEnter = () => console.log('Enter')
+//     const onPointerLeave = () => console.log('Leave')
+//     const onPointerMove = (value, index) => console.log(value, index)
+  
+//     return (
+//       <div className='App'>
+//         <Rating
+//           onClick={handleRating}
+//           onPointerEnter={onPointerEnter}
+//           onPointerLeave={onPointerLeave}
+//           onPointerMove={onPointerMove}
+//           /* Available Props */
+//         />
+//       </div>
+//     )
+//   }
