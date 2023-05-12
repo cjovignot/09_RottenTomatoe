@@ -19,7 +19,7 @@ export default async function Film({ id }) {
   const details = await fetchMovieDetails();
 
   return (
-    <div className="hero min-h-screen max-w-5xl bg-indigo-500">
+    <div className="hero p-10 h-screen max-w-5xl bg-indigo-500">
       <div>
         <div className="flex">
           <h1 className="text-5xl font-bold"> {details.title} prout</h1>
