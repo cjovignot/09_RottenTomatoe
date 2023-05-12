@@ -16,7 +16,7 @@ const MovieList = () => {
       const response = await axios.get(
         "http://localhost:3002/movies/" + pageNbr,
         {
-          cache: "force-cache",
+          cache: "no-cache",
         }
       );
       const data = await response.data;
@@ -41,17 +41,14 @@ const MovieList = () => {
 
   useEffect(() => {
     fetchData(pageNbr);
+     window.scrollTo(0, 390);
   }, [pageNbr]);
 
   return (
     <>
       <div className="movie-list">
         {movies?.movies ? (
-          movies.movies.map((movie) => (
-            <Link key={movie._id} href={`/movieunit/${movie._id}`}>
-              <Card movie={movie} />
-            </Link>
-          ))
+          movies.movies.map((movie) => <Card key={movie._id} movie={movie} />)
         ) : (
           <button className="btn loading text-center">loading</button>
         )}

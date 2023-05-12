@@ -1,25 +1,30 @@
-import React from "react";
-import EditProfile from '../components/editprofile';
+"use client";
+import React, { useState } from "react";
+import Profile from "../components/myProfile";
+import EditProfile from "../components/editprofile";
+import UserFavorites from "../components/userFavorites";
+import Cookies from "js-cookie";
+import { FavoriteContext } from "../context/FavoritesContext"; // Import FavoriteContext
 
 export default function Home() {
-
-
+  const [favoriteChanged, setFavoriteChanged] = useState(false);
 
   return (
     <div>
-      <link href="/dist/output.css" rel="stylesheet" />
+      {/* <link href="/dist/output.css" rel="stylesheet" /> */}
 
-      <div className="hero h-96 bg-base-200">
-        <div className="hero-content text-center">
-          <div className="max-w-md">
-            <h1 className="text-3xl font-bold">MY PROFILE</h1>
-            <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-            {/* <button className="btn btn-primary">Edit profile</button> */}
-            <label htmlFor="my-modal-editprofile" className="btn btn-primary">Edit profile</label>
-          </div>
+      <div className="flex-col hero-content text-center">
+        <div className="max-w-md">
+          <Profile />
+          <EditProfile />
         </div>
-
-        <EditProfile />
+        <FavoriteContext.Provider
+          value={{ favoriteChanged, setFavoriteChanged }}
+        >
+          {" "}
+          {/* Wrap UserFavorites with FavoriteContext.Provider */}
+          <UserFavorites />
+        </FavoriteContext.Provider>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  scroll-behavior: smooth;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,7 +29,7 @@ body {
   flex-wrap: wrap;
   margin-left: auto;
   margin-right: auto;
-  width: 86%;
+  width: 90%;
   justify-content: center;
 }
 
@@ -36,7 +37,7 @@ body {
 
   margin-left: auto;
   margin-right: auto;
-  width: 86%;
+  width: 80%;
 }
 
 .paginationindex {
@@ -46,4 +47,46 @@ body {
   align-items: center;
   text-align: center;
 
+}
+
+.swap {
+  position: relative;
+  display: inline-block;
+}
+
+.swap img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+}
+
+.swap-off {
+  display: none;
+}
+
+.swap-on {
+  display: block;
+}
+
+
+#navbar {
+  position: fixed;
+  padding: 4px;
+  background-color: white;
+  color: black;
+  display: flex;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+#navbar.hidden {
+  transform: translateY(-100%);
+}
+
+main {
+  padding-top: 80px;
 }

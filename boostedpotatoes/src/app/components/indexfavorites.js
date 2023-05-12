@@ -1,28 +1,55 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { AuthContext } from "../context/AuthContext"; // Add this import
+import { FavoriteContext } from "../context/FavoritesContext"; // Add this import
 
-async function fetchData() {
-  try {
-    const response = await axios.get("http://localhost:3002/movies/1", {
-      cache: "no-store",
-    });
-    const data = await response.data;
-    console.log("Fetched movies carousel:", data);
-    return data;
-  } catch (error) {
-    console.error("Fetch error", error);
-  }
-}
+const Carousel = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const { isLogged } = useContext(AuthContext); // Add this line
+  const userIdFromCookie = Cookies.get("userId");
+  const { favoriteChanged, setFavoriteChanged } = useContext(FavoriteContext); // Add this line
 
-const Carousel = async () => {
-  console.log("mon carousel");
-  const data = await fetchData();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/user/${userIdFromCookie}`,
+          {
+            cache: "no-cache",
+          }
+        );
+        setData(response.data[0].favorites);
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (isLogged) {
+      fetchData();
+      if (favoriteChanged) {
+        setFavoriteChanged(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [userIdFromCookie, isLogged, favoriteChanged, setFavoriteChanged]); // Add favoriteChanged and setFavoriteChanged to the dependencies
+
   return (
     <div className="carouselcontainer">
-      <div className="carousel rounded-box m-5">
-        {data?.movies ? (
-          data.movies.map((movie) => (
+      {loading ? (
+        <button className="btn loading text-center">Loading</button>
+      ) : !isLogged ? (
+        <div className="text-center">
+          You must be connected to select your favorites movies
+        </div>
+      ) : data && data.length > 0 ? (
+        <div className="carousel rounded-box m-5">
+          {data.map((movie) => (
             <div
               className="carousel-item mr-2 w-48 hover:scale-105 transition duration-500"
               key={movie._id}
@@ -31,11 +58,11 @@ const Carousel = async () => {
                 <img src={movie.poster_path} alt="Burger" />
               </Link>
             </div>
-          ))
-        ) : (
-          <button className="btn loading text-center">loading</button>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center">No favorite movies yet.</div>
+      )}
     </div>
   );
 };
