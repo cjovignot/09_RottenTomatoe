@@ -73,7 +73,8 @@ body {
 #navbar {
   position: fixed;
   padding: 4px;
-  background-color: #475569;
+  background-color: white;
+  color: black;
   display: flex;
   z-index: 999;
   top: 0;
