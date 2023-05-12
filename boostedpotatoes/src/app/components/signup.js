@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -13,7 +12,6 @@ const Signup = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // New state variable
 
   const handleSignup = async (e) => {
-
     e.preventDefault();
 
     function validateEmail(email) {
@@ -31,41 +29,43 @@ const Signup = () => {
         setErrorMessage("");
         console.log("Password is valid");
 
-      try {
-        const response = await axios.post("http://localhost:3001/user", {
-          username,
-          email,
-          password,
-        });
-  
-        console.log(response);
-        toast.success('SignUp successful, please LogIn')
-        setErrorMessage("");
-        setIsModalOpen(false); // Close modal on successful response
-      } catch (error) {
-        toast.error('SignUp Failed')
-        console.error("Signup failed:", error);
-        setErrorMessage("Signup failed, check your password and email");
+        try {
+          const response = await axios.post("http://localhost:3001/user", {
+            username,
+            email,
+            password,
+          });
+
+          console.log(response);
+          toast.success("SignUp successful, please LogIn");
+          setErrorMessage("");
+          setIsModalOpen(false);
+        } catch (error) {
+          toast.error("SignUp Failed");
+          console.error("Signup failed:", error);
+          setErrorMessage("Signup failed, check your password and email");
+        }
+      } else {
+        setErrorMessage(
+          "Password must contain at least 8 characters long, contain at least one digit, and contain at least one uppercase letter."
+        );
+        console.log("Password is invalid");
       }
-      
-    } else {
-      setErrorMessage("Password must contain at least 8 characters long, contain at least one digit, and contain at least one uppercase letter.");
-      console.log("Password is invalid");
-    }
     } else {
       setErrorMessage("Email is invalid");
       console.log("Email is invalid");
     }
-
   };
 
   return (
     <div>
-      <input type="checkbox"
+      <input
+        type="checkbox"
         id="my-modal-signup"
         className="modal-toggle"
         checked={isModalOpen} // Update the "checked" property
-        onChange={() => setIsModalOpen(!isModalOpen)} />
+        onChange={() => setIsModalOpen(!isModalOpen)}
+      />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <form onSubmit={handleSignup}>
