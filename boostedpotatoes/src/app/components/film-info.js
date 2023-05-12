@@ -1,6 +1,8 @@
 import React from "react";
 import Favtoggle from "./favoritestoggle";
 const axios = require("axios");
+import RateMovie from '../components/RateMovie'
+
 
 export default async function Film({ id }) {
   const fetchMovieDetails = async () => {
@@ -19,10 +21,10 @@ export default async function Film({ id }) {
   const details = await fetchMovieDetails();
 
   return (
-    <div className="hero min-h-screen max-w-5xl bg-indigo-500">
+    <div className="hero min-h-screen max-w-5xl bg-indigo-500 p-10">
       <div>
         <div className="flex">
-          <h1 className="text-5xl font-bold"> {details.title} prout</h1>
+          <h1 className="text-5xl font-bold"> {details.title}</h1>
           <Favtoggle movie={details} />
           <div className="flex ">
             <div className="w-auto mx-2">
@@ -48,19 +50,9 @@ export default async function Film({ id }) {
             </div>
             <div className="w-auto">
               <h1 className="mr-3 text-center text-2xl font-bold w-max">
-                Your Rating
+                <RateMovie id= {id}/>
               </h1>
               <div className="flex items-center">
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5 text-yellow-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <title>Rating star</title>
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                </svg>
               </div>
             </div>
           </div>
@@ -84,7 +76,7 @@ export default async function Film({ id }) {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex items-center justify-center">
           {details.genres?.map((genre) => (
             <p className="badge badge-outline mr-8" key={genre.id}>
               {genre}
@@ -95,7 +87,7 @@ export default async function Film({ id }) {
           <p className="py-6">{details.description}</p>
         </div>
         <div className="flex items-center border-y-2 border-stone-400">
-          <h3 className="text-2xl font-bold">Réalisation</h3>
+          <h3 className="text-2xl font-bold">Director</h3>
           <p className="py-6 ml-12">{details.director}</p>
         </div>
         <div className="flex mt-8">
@@ -108,7 +100,6 @@ export default async function Film({ id }) {
               </div>
             </div>
           ))}
-          ;
         </div>
       </div>
     </div>

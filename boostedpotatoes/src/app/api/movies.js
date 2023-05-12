@@ -347,13 +347,18 @@ app.put('/comment/:movie_id/:comment_id', async (req, res) => {
 
 app.put('/rate/:movie_id/:rating', async (req, res) => {
   const movieId = req.params.movie_id;
-  const newRating = req.params.rating;
+  const newRating = parseFloat(req.params.rating);
+  
   try {
     const movie = await Movie.findById(movieId);
     if (!movie) {
       return res.status(404).send("No movie found.");
     }
-    movie.vote_average = ((movie.vote_average * movie.vote_count) + parseFloat(newRating)) / (movie.vote_count + 1);
+    
+    let newVoteAverage = ((movie.vote_average * movie.vote_count) + newRating) / (movie.vote_count + 1);
+    newVoteAverage = parseFloat(newVoteAverage.toFixed(2));
+    
+    movie.vote_average = newVoteAverage;
     movie.vote_count += 1;
 
     await movie.save();

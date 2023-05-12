@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main className="">
       <div>
-      toto
+      <RateMovie/>
       </div>  
     </main>
   )

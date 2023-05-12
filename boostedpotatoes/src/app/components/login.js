@@ -11,7 +11,6 @@ const Login = ({ isLogged, setIsLogged }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isAdmin, setIsAdmin] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
