@@ -16,9 +16,11 @@ const Rating = ({ id }) => {
       console.log(rating);
       console.log(response);
       setRated(true);
+      setTimeout(() => {
+        setRated(false); // Reset the rated state after 3 seconds
+      }, 3000);
     } catch (error) {
       console.error(error);
-      // Handle error or update UI accordingly
     }
   };
 
@@ -34,7 +36,7 @@ const Rating = ({ id }) => {
             onMouseEnter={() => setSelectedRating(rating)}
             onMouseLeave={() => setSelectedRating(0)}
             style={{
-              color: selectedRating >= rating ? 'orange' : 'white',
+              color: selectedRating >= rating ? 'orange' : 'grey',
               cursor: 'pointer',
             }}
           >

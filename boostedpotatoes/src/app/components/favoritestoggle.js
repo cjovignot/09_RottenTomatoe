@@ -73,9 +73,9 @@ const FavToggle = ({ movie }) => {
   return (
     <>
       {isLogged && (
-        <div onClick={handleFavToggle}>
+        <div className="flex items-center" onClick={handleFavToggle}>
           {isFav ? (
-            <img src="/red-heart.svg" style={{ width: 30 + "px" }}></img>
+            <img class="heart" src="/red-heart.svg" style={{ width: 30 + "px" }}></img>
           ) : (
             <img src="/white-heart.png" style={{ width: 30 + "px" }}></img>
           )}

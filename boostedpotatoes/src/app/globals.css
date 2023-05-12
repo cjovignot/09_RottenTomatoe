@@ -90,3 +90,14 @@ body {
 main {
   padding-top: 80px;
 }
+
+#heart-movieUnit .heart {
+  max-width: unset;
+}
+
+#stars_movies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
