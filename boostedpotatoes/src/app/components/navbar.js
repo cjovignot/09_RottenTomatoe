@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import * as React from 'react';
 import Login from "../components/login";
 import Signup from "../components/signup";
 import Cookies from "js-cookie";
@@ -11,6 +12,25 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [navbarVisible, setNavbarVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (scrollTop > lastScrollTop) {
+        setNavbarVisible(false);
+      } else {
+        setNavbarVisible(true);
+      }
+      setLastScrollTop(scrollTop);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollTop]);
 
   const { isLogged, setIsLogged } = useContext(AuthContext); // Add this line
 
@@ -40,7 +60,7 @@ const Navbar = () => {
   if (isLoading) {
     return (
       <>
-        <div className="navbar bg-base-100">
+        <div id="navbar" className={...navbarVisible ? 'visible' : 'hidden'}>
           <div className="flex-1">
             <Link
               href="/"
@@ -51,7 +71,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="flex-none gap-2">
+          <div className="flex items-center gap-2">
             <div className="form-control">
               <input
                 type="text"
@@ -67,7 +87,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-base-100">
+    <div id="navbar" className={...navbarVisible ? 'visible' : 'hidden'}>
       <div className="flex-1">
         <a href="/" className="btn btn-ghost normal-case text-xl font-sans">
           <img className="w-12 h-12 mr-3" src="Rotten.png" />
@@ -75,7 +95,7 @@ const Navbar = () => {
         </a>
       </div>
 
-      <div className="flex-none gap-2">
+      <div className="flex items-center gap-2">
         <div className="form-control">
           <input
             type="text"
