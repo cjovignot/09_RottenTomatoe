@@ -3,9 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import * as React from 'react';
 import Login from "../components/login";
 import Signup from "../components/signup";
+import SearchBar from "../components/SearchBar";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { AuthContext } from "../context/AuthContext"; // Add this import
+import { AuthContext } from "../context/AuthContext";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,7 +33,7 @@ const Navbar = () => {
     };
   }, [lastScrollTop]);
 
-  const { isLogged, setIsLogged } = useContext(AuthContext); // Add this line
+  const { isLogged, setIsLogged } = useContext(AuthContext);
 
   useEffect(() => {
     const userId = Cookies.get("userId");
@@ -73,13 +74,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="form-control">
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered"
-              />
-            </div>
+           <SearchBar/>
             <button className="btn loading text-center btn btn-ghost btn-circle avatar"></button>
           </div>
         </div>
@@ -97,13 +92,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered"
-          />
-        </div>
+        <SearchBar/>
 
         {isLogged ? (
           <div className="dropdown dropdown-end">

@@ -12,7 +12,7 @@ const Card = ({ movie }) => {
   return (
     <>
       <div className="card w-64 bg-base-100 shadow-xl m-5 h-110 hover:scale-105 transition duration-500 relative">
-        <div className="absolute bottom-100 right-0 m-2 z-50">
+        <div className="absolute bottom-100 right-0 m-2 z-40">
           <Favorite key={movie._id} movie={movie} />
         </div>
         <Link key={_id} href={`/movieunit/${_id}`}>
