@@ -10,6 +10,7 @@ function editProfile () {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [isAdmin, setIsAdmin] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -106,6 +107,19 @@ const handleEditProfile = async (event) => {
                 className="input input-bordered w-full"
               />
             </div>
+            {Cookies.get("isAdmin") && (
+              <div className="form-control pt-4">
+                <label className="cursor-pointer label">
+                  <span className="label-text">Admin</span>
+                  <input
+                    type="checkbox"
+                    className="checkbox checkbox-success"
+                    checked='true'
+                    onChange={(event) => setIsAdmin(event.target.checked)}
+                  />
+                </label>
+              </div>
+            )}
             {/* {errorMessage && (
               <div className="text-error mt-2 text-sm">{errorMessage}</div>
             )} */}

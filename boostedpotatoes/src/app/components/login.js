@@ -11,6 +11,7 @@ const Login = ({ isLogged, setIsLogged }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isAdmin, setIsAdmin] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,14 +25,22 @@ const Login = ({ isLogged, setIsLogged }) => {
       Cookies.set("userId", user_id);
       setIsLogged(true);
 
+      const testIsAdmin = await axios.get(`http://localhost:3001/user/` + user_id)
+      if (testIsAdmin.data[0].isAdmin) {
+      const data = testIsAdmin.data[0].isAdmin;
+      console.log("Test Admin", data);
+        Cookies.set("isAdmin", data)
+      }
+
       toast.success("Login successful");
-      document.getElementById("my-modal-login").checked = false;
+      // document.getElementById("my-modal-login").checked = false;
     } catch (error) {
       console.error("Login failed:", error);
       setErrorMessage("Login failed. Please check your email and password.");
       toast.error("Login failed");
     }
   };
+
 
   return (
     <div>
