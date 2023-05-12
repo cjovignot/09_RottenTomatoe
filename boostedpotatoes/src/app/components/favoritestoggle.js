@@ -2,12 +2,15 @@
 import Cookies from "js-cookie";
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { FavoriteContext } from "../context/FavoritesContext"; // Add this import
 
 const axios = require("axios");
 
 const FavToggle = ({ movie }) => {
   const [isFav, setIsFav] = useState(false);
   const { isLogged } = useContext(AuthContext);
+  const { favoriteChanged, setFavoriteChanged } = useContext(FavoriteContext); // Add this line
+
   useEffect(() => {
     const fetchData = async () => {
       const userIdFromCookie = Cookies.get("userId");
@@ -60,6 +63,7 @@ const FavToggle = ({ movie }) => {
           await axios.post(urladd, movieAttributes);
         }
         setIsFav(!isFav);
+        setFavoriteChanged(true); // Add this line
       } catch (error) {
         console.error("Error:", error);
       }
