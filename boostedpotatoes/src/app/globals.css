@@ -68,3 +68,25 @@ body {
 .swap-on {
   display: block;
 }
+
+
+#navbar {
+  position: fixed;
+  padding: 4px;
+  background-color: white;
+  color: black;
+  display: flex;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+#navbar.hidden {
+  transform: translateY(-100%);
+}
+
+main {
+  padding-top: 80px;
+}

@@ -3,12 +3,14 @@ import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { AuthContext } from "../context/AuthContext"; // Add this import
+import { FavoriteContext } from "../context/FavoritesContext"; // Add this import
 
 const Carousel = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { isLogged } = useContext(AuthContext); // Add this line
   const userIdFromCookie = Cookies.get("userId");
+  const { favoriteChanged, setFavoriteChanged } = useContext(FavoriteContext); // Add this line
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +31,13 @@ const Carousel = () => {
 
     if (isLogged) {
       fetchData();
+      if (favoriteChanged) {
+        setFavoriteChanged(false);
+      }
     } else {
       setLoading(false);
     }
-  }, [userIdFromCookie, isLogged]);
+  }, [userIdFromCookie, isLogged, favoriteChanged, setFavoriteChanged]); // Add favoriteChanged and setFavoriteChanged to the dependencies
 
   return (
     <div className="carouselcontainer pt-16">
