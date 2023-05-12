@@ -175,10 +175,24 @@ app.get("/movies/:page", async (req, res) => {
   const page = req.params.page;
   const limit = 12;
   const skip = (page - 1) * limit;
+  const search = req.query.search || "";
 
   try {
-    const movies = await Movie.find().skip(skip).limit(limit);
-    const totalMovies = await Movie.countDocuments();
+    const movies = await Movie.find({ 
+      $or: [
+        { title: { $regex: search, $options: 'i' } },
+        { "cast.name": { $regex: search, $options: 'i' } },
+        { genres: { $elemMatch: { $eq: search } } },
+      ]
+    }).skip(skip).limit(limit);
+
+    const totalMovies = await Movie.countDocuments({
+      $or: [
+        { title: { $regex: search, $options: 'i' } },
+        { "cast.name": { $regex: search, $options: 'i' } },
+        { genres: { $elemMatch: { $eq: search } } },
+      ]
+    });
 
     const totalPages = Math.ceil(totalMovies / limit);
 
@@ -326,6 +340,32 @@ app.put('/comment/:movie_id/:comment_id', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Error updating comment ...");
+  }
+});
+
+//rate a movie
+
+app.put('/rate/:movie_id/:rating', async (req, res) => {
+  const movieId = req.params.movie_id;
+  const newRating = req.params.rating;
+  try {
+    const movie = await Movie.findById(movieId);
+    if (!movie) {
+      return res.status(404).send("No movie found.");
+    }
+    movie.vote_average = ((movie.vote_average * movie.vote_count) + parseFloat(newRating)) / (movie.vote_count + 1);
+    movie.vote_count += 1;
+
+    await movie.save();
+
+    res.json({
+      message: 'Rating updated successfully',
+      new_rating: movie.vote_average,
+      new_count: movie.vote_count
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating rating ...");
   }
 });
 
