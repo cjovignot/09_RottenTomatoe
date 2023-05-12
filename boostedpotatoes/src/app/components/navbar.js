@@ -2,9 +2,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import Login from "../components/login";
 import Signup from "../components/signup";
+import SearchBar from "../components/SearchBar";
 import Cookies from "js-cookie";
 import Link from "next/link";
-import { AuthContext } from "../context/AuthContext"; // Add this import
+import { AuthContext } from "../context/AuthContext";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
 
-  const { isLogged, setIsLogged } = useContext(AuthContext); // Add this line
+  const { isLogged, setIsLogged } = useContext(AuthContext);
 
   useEffect(() => {
     const userId = Cookies.get("userId");
@@ -67,7 +68,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-base-200 fixed top-0 w-full z-50">
+    <div className="navbar bg-base-200 w-full">
       <div className="flex-1">
         <a href="/" className="btn btn-ghost normal-case text-xl font-sans">
           <img className="w-12 h-12 mr-3" src="Rotten.png" />
@@ -76,13 +77,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered"
-          />
-        </div>
+        <SearchBar/>
 
         {isLogged ? (
           <div className="dropdown dropdown-end">

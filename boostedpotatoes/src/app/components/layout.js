@@ -14,9 +14,7 @@ export default function Layout({ children }) {
       children}
       <ToastContainer />
       </main>
-      <footer>
       <Footer />
-      </footer>
     </>
   );
 }

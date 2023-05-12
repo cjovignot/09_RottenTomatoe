@@ -35,7 +35,7 @@ const Carousel = () => {
   }, [userIdFromCookie, isLogged]);
 
   return (
-    <div className="carouselcontainer">
+    <div className="carouselcontainer pt-16">
       {loading ? (
         <button className="btn loading text-center">Loading</button>
       ) : !isLogged ? (
