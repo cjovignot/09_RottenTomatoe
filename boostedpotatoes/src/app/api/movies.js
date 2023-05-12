@@ -176,23 +176,34 @@ app.get("/movies/:page", async (req, res) => {
   const limit = 12;
   const skip = (page - 1) * limit;
   const search = req.query.search || "";
+  const sort = req.query.sort || "title";
+  const direction = req.query.direction || "asc";
+  const genres = req.query.genres || "";
+
+  const sortOptions = {
+    "rating": { "vote_average": direction === "asc" ? 1 : -1 },
+    "alphabetical": { "title": direction === "asc" ? 1 : -1 },
+    "release_date": { "release_date": direction === "asc" ? 1 : -1 }
+  };
 
   try {
-    const movies = await Movie.find({ 
-      $or: [
-        { title: { $regex: search, $options: 'i' } },
-        { "cast.name": { $regex: search, $options: 'i' } },
-        { genres: { $elemMatch: { $eq: search } } },
+    const query = { 
+      $and: [
+        { $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { "cast.name": { $regex: search, $options: 'i' } },
+          { genres: { $elemMatch: { $eq: search } } },
+        ]},
+        ...(genres ? [{ genres: { $elemMatch: { $eq: genres } } }] : []),
       ]
-    }).skip(skip).limit(limit);
+    };
 
-    const totalMovies = await Movie.countDocuments({
-      $or: [
-        { title: { $regex: search, $options: 'i' } },
-        { "cast.name": { $regex: search, $options: 'i' } },
-        { genres: { $elemMatch: { $eq: search } } },
-      ]
-    });
+    const movies = await Movie.find(query)
+      .sort(sortOptions[sort] || {})
+      .skip(skip)
+      .limit(limit);
+
+    const totalMovies = await Movie.countDocuments(query);
 
     const totalPages = Math.ceil(totalMovies / limit);
 

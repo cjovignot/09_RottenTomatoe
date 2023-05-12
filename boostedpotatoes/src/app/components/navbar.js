@@ -114,7 +114,7 @@ const Navbar = ({router}) => {
                 </Link>
               </li>
               <li>
-                <Link href="/settings">Admin</Link>
+                <Link href="/admin">Admin</Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>
