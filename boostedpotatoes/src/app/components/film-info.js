@@ -36,7 +36,7 @@ export default async function Film({ id }) {
   const details = await fetchMovieDetails();
 
   return (
-    <div className="hero min-h-screen max-w-5xl bg-white p-10 rounded-3xl">
+    <div className="hero min-h-screen max-w-5xl p-10 rounded-3xl">
       <div>
         <div className="flex justify-center mb-5 text-2xl">
           <h2 className="font-bold"> {details.release_date.slice(0, 4)} </h2>

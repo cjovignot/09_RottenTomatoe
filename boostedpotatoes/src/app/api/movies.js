@@ -176,8 +176,8 @@ app.get("/movies/:page", async (req, res) => {
   const limit = 12;
   const skip = (page - 1) * limit;
   const search = req.query.search || "";
-  const sort = req.query.sort || "title";
-  const direction = req.query.direction || "asc";
+  const sort = req.query.sort || "";
+  const direction = req.query.direction || "";
   const genres = req.query.genres || "";
 
   const sortOptions = {

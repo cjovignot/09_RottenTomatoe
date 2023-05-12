@@ -12,7 +12,14 @@ async function getAllMovies(page) {
   return data;
 }
 
-const Table = ({ movies, pageNbr, setPageNbr }) => {
+
+const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
+
+  const pageNumbers = [];
+  for (let i = Math.max(1, pageNbr - 2); i <= Math.min(pageNbr + 2, totalPages); i++) {
+    pageNumbers.push(i);
+  }
+ 
   const previousPage = () => {
     setPageNbr((prevPageNbr) => prevPageNbr - 1);
   };
@@ -22,26 +29,31 @@ const Table = ({ movies, pageNbr, setPageNbr }) => {
   };
   return (
     <div className="overflow-x-auto w-auto">
-       <div className="paginationindex">
-        <button
-          className="btn m-2"
-          onClick={previousPage}
-          disabled={pageNbr === 1}
-        >
-          Prev
-        </button>
-        <div className="bg-neutral-focus text-neutral-contentrounded-full w-24">
-          <span className="text-3xl h-10">{pageNbr}</span>
-        </div>
-
-        <button
-          className="btn m-2"
-          onClick={nextPage}
-          disabled={pageNbr === movies?.totalPages}
-        >
-          Next
-        </button>
-      </div>
+       <div className="paginationindex flex items-center justify-center mb-20 p-10">
+  <button
+    className="btn m-2"
+    onClick={previousPage}
+    disabled={pageNbr === 1}
+  >
+    Prev
+  </button>
+  {pageNumbers.map(number => (
+    <button
+      key={number}
+      className={`btn m-2 ${pageNbr === number ? 'bg-white text-black' : ''}`}
+      onClick={() => setPageNbr(number)}
+    >
+      {number}
+    </button>
+  ))}
+  <button
+    className="btn m-2"
+    onClick={nextPage}
+    disabled={pageNbr === totalPages}
+  >
+    Next
+  </button>
+</div>
       <table className="table w-full">
         <thead>
           <tr>
@@ -85,44 +97,52 @@ const Table = ({ movies, pageNbr, setPageNbr }) => {
           ))}
         </tbody> 
       </table>
-      <div className="paginationindex">
-        <button
-          className="btn m-2"
-          onClick={previousPage}
-          disabled={pageNbr === 1}
-        >
-          Prev
-        </button>
-        <div className="bg-neutral-focus text-neutral-contentrounded-full w-24">
-          <span className="text-3xl h-10">{pageNbr}</span>
-        </div>
-
-        <button
-          className="btn m-2"
-          onClick={nextPage}
-          disabled={pageNbr === movies?.totalPages}
-        >
-          Next
-        </button>
-      </div>
+    <div className="paginationindex flex items-center justify-center mb-20 p-10">
+  <button
+    className="btn m-2"
+    onClick={previousPage}
+    disabled={pageNbr === 1}
+  >
+    Prev
+  </button>
+  {pageNumbers.map(number => (
+    <button
+      key={number}
+      className={`btn m-2 ${pageNbr === number ? 'bg-white text-black' : ''}`}
+      onClick={() => setPageNbr(number)}
+    >
+      {number}
+    </button>
+  ))}
+  <button
+    className="btn m-2"
+    onClick={nextPage}
+    disabled={pageNbr === totalPages}
+  >
+    Next
+  </button>
+</div>
       
     </div>
   );
 };
+
 function AdminMovie() {
   const [movies, setMovies] = useState([]);
   const [pageNbr, setPageNbr] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchMovies = async () => {
       const data = await getAllMovies(pageNbr);
       setMovies(data.results);
+      setTotalPages(data.total_pages); 
     };
     fetchMovies();
     window.scrollTo(0, 0);
   }, [pageNbr]);
 
-  return <Table movies={movies} pageNbr={pageNbr} setPageNbr={setPageNbr} />;
+  return <Table movies={movies} pageNbr={pageNbr} setPageNbr={setPageNbr} totalPages={totalPages} />;
 }
 
 export default AdminMovie;

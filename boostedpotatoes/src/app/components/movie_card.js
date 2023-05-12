@@ -2,6 +2,7 @@
 import React from "react";
 
 import Favorite from "../components/favoritestoggle";
+import Stars from "../components/starDisplay";
 import Link from "next/link";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -14,6 +15,9 @@ const Card = ({ movie }) => {
       <div className="card w-64 bg-base-100 shadow-xl m-5 h-110 hover:scale-105 transition duration-500 relative">
         <div className="absolute bottom-100 right-0 m-2 z-40">
           <Favorite key={movie._id} movie={movie} />
+        </div>
+        <div className="absolute scale-90 bottom-100 pl-2 left-0 z-40">
+          <Stars key={movie._id} stars={movie.vote_average} />
         </div>
         <Link key={_id} href={`/movieunit/${_id}`}>
           <figure className="z-10">
