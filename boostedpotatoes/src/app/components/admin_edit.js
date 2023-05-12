@@ -1,29 +1,49 @@
-import React, { useState } from "react";
+"user client";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditProfile({ user, fetchData, isModalOpen, setIsModalOpen }) {
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
+  const [userId, setUserId] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [isAdmin, setisAdmin] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    setUserId(user._id);
+    setUsername(user.username);
+    setEmail(user.email);
+    setIsAdmin(user.isAdmin || false);
+  }, [user]);
 
   const handleEditProfile = async (event) => {
+    console.log("DATAINPUT", username);
+    console.log("DATAINPUT", userId);
+    console.log("DATAINPUT", email);
+    console.log("DATAINPUT", newPassword);
+    console.log("DATAINPUT", isAdmin);
+
     event.preventDefault();
-    try {
-      const response = await axios.put(
-        `http://localhost:3001/user_update/${user.id}`,
-        {
+
+    if (userId) {
+      try {
+        await axios.put(`http://localhost:3001/user_update/${userId}`, {
           username,
           email,
           newPassword,
-          IsAdmin,
-        }
-      );
-      console.log(response);
-      fetchData();
-      setModalOpen(false);
-    } catch (error) {
-      console.error("Fetch error", error);
+          isAdmin,
+        });
+
+        fetchData();
+        setIsModalOpen(false);
+        toast.success("Profile edited successfully");
+      } catch (error) {
+        console.error("Fetch error", error);
+        toast.error("Profile edit failed");
+      }
     }
   };
 
@@ -84,6 +104,7 @@ function EditProfile({ user, fetchData, isModalOpen, setIsModalOpen }) {
                 <input
                   type="checkbox"
                   className="checkbox checkbox-success"
+                  checked={isAdmin}
                   onChange={(event) => setIsAdmin(event.target.checked)}
                 />
               </label>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import CreateUser from "./admin_create";
 import EditProfile from "./admin_edit";
-import DeleteUser from "./admin_delete";
+import DeleteUserModal from "./admin_delete";
 
 const Table = () => {
   const [users, setUsers] = useState([]);
@@ -10,7 +10,7 @@ const Table = () => {
   const [deleteModalUserId, setDeleteModalUserId] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
+  const [editModalUserIndex, setEditModalUserIndex] = useState(null);
   async function getAllusers() {
     const res = await fetch(`http://localhost:3001/users`, {
       cache: "no-cache",
@@ -54,8 +54,8 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr>
+          {users.map((user, index) => (
+            <tr key={user._id}>
               <td>{user.username}</td>
               <td>{user.email}</td>
               {user.isAdmin ? (
@@ -67,16 +67,16 @@ const Table = () => {
               )}
               <td>
                 <button
-                  htmlFor={`my-modal-editprofile-${user.id}`}
                   className="btn"
                   onClick={() => {
-                    setEditModalUserId(user.id);
                     setIsEditModalOpen(true);
+                    setEditModalUserIndex(index);
                   }}
                 >
                   Edit
                 </button>
-                {editModalUserId === user.id && (
+
+                {editModalUserIndex === index && (
                   <EditProfile
                     user={user}
                     fetchData={getAllusers}
@@ -85,16 +85,21 @@ const Table = () => {
                   />
                 )}
               </td>
+
               <td>
                 <button
-                  htmlFor={`my-modal-deleteuser-${user.id}`}
                   className="btn btn-error text-3xl font-bold text-white"
-                  onClick={() => setDeleteModalUserId(user.id)}
+                  onClick={() => setDeleteModalUserId(user._id)}
                 >
                   X
                 </button>
-                {deleteModalUserId === user.id && (
-                  <DeleteUser userId={user.id} fetchData={getAllusers} />
+                {deleteModalUserId === user._id && (
+                  <DeleteUserModal
+                    userId={user._id}
+                    fetchData={getAllusers}
+                    setIsModalOpen={setDeleteModalUserId}
+                    isModalOpen={deleteModalUserId !== null} // Pass true if deleteModalUserId is not null
+                  />
                 )}
               </td>
             </tr>

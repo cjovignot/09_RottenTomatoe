@@ -137,7 +137,7 @@ const Signup = ({ isModalOpen, setIsModalOpen, fetchData }) => {
                 htmlFor="my-modal-signup"
                 className="btn btn-outline btn-success"
               >
-                Sign in
+                Create
               </button>
             </div>
           </form>
