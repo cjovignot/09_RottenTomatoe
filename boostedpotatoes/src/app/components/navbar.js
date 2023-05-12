@@ -7,6 +7,7 @@ import SearchBar from "../components/SearchBar";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { AuthContext } from "../context/AuthContext";
+import { useRouter } from "next/router";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -57,6 +58,9 @@ const Navbar = () => {
     setIsLogged(false);
     setIsLoading(false);
     toast.success("Logout successful");
+
+    const router = useRouter();
+    router.push("/");
   };
 
   if (isLoading) {
