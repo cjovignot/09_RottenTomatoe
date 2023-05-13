@@ -43,6 +43,7 @@ const Table = () => {
           fetchData={getAllusers}
         />
       </div>
+      <div className="px-20">
       <table className="table w-full">
         <thead>
           <tr>
@@ -98,7 +99,7 @@ const Table = () => {
                     userId={user._id}
                     fetchData={getAllusers}
                     setIsModalOpen={setDeleteModalUserId}
-                    isModalOpen={deleteModalUserId !== null} // Pass true if deleteModalUserId is not null
+                    isModalOpen={deleteModalUserId !== null}
                   />
                 )}
               </td>
@@ -106,6 +107,7 @@ const Table = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </>
   );
 };

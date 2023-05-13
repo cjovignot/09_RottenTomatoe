@@ -99,7 +99,7 @@ const MovieList = () => {
   {pageNumbers.map(number => (
     <button
       key={number}
-      className={`btn m-2 ${pageNbr === number ? 'bg-white text-black' : ''}`}
+      className={`btn m-2 ${pageNbr === number ? 'btn-active' : ''}`}
       onClick={() => goPage(number)}
     >
       {number}

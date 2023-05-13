@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import AddMovie from "../components/AddMovieBtn";
+import Link from "next/link";
 
 async function getAllMovies(page) {
-  const res = await fetch(`http://localhost:3002/api/all_movies/${page}`, { cache: 'no-cache' });
+  const res = await fetch(`http://localhost:3002/movies/${page}`, { cache: 'no-cache' });
   if (!res.ok) { 
     throw new Error('Failed to fetch movies');
   }
@@ -37,7 +38,7 @@ const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
               <th>Genre</th>
               <th>Rating</th>
               <th>Release Date</th>
-              <th></th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -47,9 +48,9 @@ const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
                   <label>
                     <div className="flex items-center space-x-3">
                       <div className="avatar">
-                        <div className="mask mask-squircle w-16 h-16">
+                        <Link href={`http://localhost:3000/movieunit/${movie._id}`}><div target="_blank" className="mask mask-squircle w-16 h-16">
                           <img src={`${ movie.poster_path }`} alt="Movie poster" />
-                        </div>
+                        </div></Link>
                       </div>
                     </div>
                   </label>
@@ -58,7 +59,7 @@ const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
                   <div className="flex items-center space-x-3">
                     <div>
                       <div className="font-bold">{movie.title}</div>
-                      <div className="text-sm opacity-50">{movie.credit.director}</div>
+                      <div className="text-sm opacity-50">{movie.director}</div>
                     </div>
                   </div>
                 </td>
@@ -66,7 +67,7 @@ const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
                 <td>{movie.vote_average}</td>
                 <td>{movie.release_date}</td>
                 <th>
-                  <AddMovie movie={movie} />
+                <btn className='btn btn-error'>-</btn>
                 </th>
               </tr>
             ) )}
@@ -110,8 +111,8 @@ function AdminMovie() {
   useEffect(() => {
     const fetchMovies = async () => {
       const data = await getAllMovies(pageNbr);
-      setMovies(data.results);
-      setTotalPages(data.total_pages); 
+      setMovies(data.movies);
+      setTotalPages(data.totalPages); 
     };
     fetchMovies();
     window.scrollTo(0, 0);

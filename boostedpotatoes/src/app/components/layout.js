@@ -1,10 +1,9 @@
 "use client";
 import Navbar from "./navbar";
 import Footer from "./footer";
-
+import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 export default function Layout({ children }) {
   const router = useRouter()
@@ -12,10 +11,8 @@ export default function Layout({ children }) {
     <><nav>
       <Navbar router={router}/>
       </nav>
-      <main>{
-      children}
-      <ToastContainer />
-      </main>
+      <ToastContainer/>
+      <main>{children}</main>
       <Footer />
     </>
   );
