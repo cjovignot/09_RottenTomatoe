@@ -24,7 +24,7 @@ const MovieList = () => {
     if (searchWord) url += `&search=${searchWord}`, setPageNbr(1) ;
 
     try {
-      const response = await axios.get(url, { cache: "no-cache" });
+      const response = await axios.get(url, { cache: "force-cache" });
       const data = await response.data;
       console.log("Fetched movies:", data);
       setMovies(data);
@@ -33,17 +33,26 @@ const MovieList = () => {
     }
   };
 
+ 
   const nextPage = () => {
     if (pageNbr < movies.totalPages) {
       setPageNbr(pageNbr + 1);
     }
+    window.scrollTo(0, 350);
   };
 
   const previousPage = () => {
     if (pageNbr > 1) {
       setPageNbr(pageNbr - 1);
     }
+    window.scrollTo(0, 350);
   };
+
+  const goPage = (number) => {
+    setPageNbr(number)
+    window.scrollTo(0, 350);
+  };
+
 
   const pageNumbers = [];
   for(let i = Math.max(1, pageNbr - 2); i <= Math.min(pageNbr + 2, movies?.totalPages); i++) {
@@ -54,7 +63,6 @@ const MovieList = () => {
 
  useEffect(() => {
   fetchData(pageNbr);
-  window.scrollTo(0, 350);
 }, [pageNbr,sort ,direction,searchWord, genre]);
 
   return (
@@ -80,7 +88,7 @@ const MovieList = () => {
     <button className="btn loading text-center">loading</button>
   )}
 </div>
-     <div className="paginationindex flex items-center justify-center mb-20 p-10">
+     <div className="paginationindex flex items-center justify-center ">
   <button
     className="btn m-2"
     onClick={previousPage}
@@ -92,7 +100,7 @@ const MovieList = () => {
     <button
       key={number}
       className={`btn m-2 ${pageNbr === number ? 'bg-white text-black' : ''}`}
-      onClick={() => setPageNbr(number)}
+      onClick={() => goPage(number)}
     >
       {number}
     </button>

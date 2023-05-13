@@ -40,9 +40,7 @@ const Carousel = () => {
 
   return (
     <div className="carouselcontainer">
-      {loading ? (
-        <button className="btn loading text-center">Loading</button>
-      ) : !isLogged ? (
+      { !isLogged ? (
         <div className="text-center">
           You must be connected to select your favorites movies
         </div>
