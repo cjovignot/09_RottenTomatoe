@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import AddMovie from "../components/AddMovieBtn";
+import DeleteUserMovie from "../components/adminDelMovie";
 import Link from "next/link";
 
 async function getAllMovies(page) {
@@ -14,7 +14,9 @@ async function getAllMovies(page) {
 }
 
 
-const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
+const Table = ({ movies, pageNbr, setPageNbr, totalPages, fetchData }) => {
+
+  const [deleteModalMovieId, setDeleteModalMovieId] = useState(null);
 
   const pageNumbers = [];
   for (let i = Math.max(1, pageNbr - 2); i <= Math.min(pageNbr + 2, totalPages); i++) {
@@ -67,7 +69,16 @@ const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
                 <td>{movie.vote_average}</td>
                 <td>{movie.release_date}</td>
                 <th>
-                <btn className='btn btn-error'>-</btn>
+               <button
+              className="btn btn-error text-3xl font-bold text-white"
+              onClick={() => setDeleteModalMovieId(movie._id)}>x</button>
+              {deleteModalMovieId === movie._id && ( 
+               <DeleteUserMovie
+                pageNbr={pageNbr}
+                fetchData={fetchData}
+                movieId={movie._id} 
+                setIsModalOpen={setDeleteModalMovieId}
+                isModalOpen={deleteModalMovieId !== null}/> )}
                 </th>
               </tr>
             ) )}
@@ -108,6 +119,12 @@ function AdminMovie() {
   const [pageNbr, setPageNbr] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+ const fetchData = async () => {
+    const data = await getAllMovies(pageNbr);
+    setMovies(data.movies);
+    setTotalPages(data.totalPages);
+}
+
   useEffect(() => {
     const fetchMovies = async () => {
       const data = await getAllMovies(pageNbr);
@@ -118,7 +135,7 @@ function AdminMovie() {
     window.scrollTo(0, 0);
   }, [pageNbr]);
 
-  return <Table movies={movies} pageNbr={pageNbr} setPageNbr={setPageNbr} totalPages={totalPages} />;
+  return <Table movies={movies} pageNbr={pageNbr} setPageNbr={setPageNbr} totalPages={totalPages} fetchData={fetchData} />;
 }
 
 export default AdminMovie;

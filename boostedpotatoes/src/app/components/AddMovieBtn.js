@@ -35,7 +35,7 @@ const AddMovie = ({ movie }) => {
      return toast.success('Movie '+ movie.title +' added')
   };
 
-  return <button className='btn' onClick={addMovieToDb}>+</button>;
+  return <button className='btn btn-primary text-3xl font-bold text-white' onClick={addMovieToDb}>+</button>;
 }
 
 export default AddMovie;

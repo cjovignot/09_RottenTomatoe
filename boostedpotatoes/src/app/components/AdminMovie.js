@@ -58,7 +58,8 @@ const Table = ({ movies, pageNbr, setPageNbr, totalPages }) => {
                   <div className="flex items-center space-x-3">
                     <div>
                       <div className="font-bold">{movie.title}</div>
-                      <div className="text-sm opacity-50">{movie.credit.director}</div>
+                      {movie.director && <div className="text-sm opacity-50">{movie.director}
+                      </div>}
                     </div>
                   </div>
                 </td>
