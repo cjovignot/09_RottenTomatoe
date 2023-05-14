@@ -1,7 +1,9 @@
 import React from "react";
 import Favtoggle from "./favoritestoggle";
-const axios = require("axios");
+import axios from "axios";
 import RateMovie from '../components/RateMovie'
+import CommentsDisplay from "../components/comments";
+
 
 function generateRandomDuration() {
   const minDuration = 90;
@@ -14,10 +16,6 @@ function generateRandomDuration() {
 
   return `${hours}h ${minutes}mn`;
 }
-
-const randomDuration = generateRandomDuration();
-
-
 
 export default async function Film({ id }) {
   const fetchMovieDetails = async () => {
@@ -120,7 +118,10 @@ export default async function Film({ id }) {
             ))}
           </div>
         </div>
+      <CommentsDisplay id={id} comments={details.comments} />
       </div>
+
+      
     </div>
   );
 }

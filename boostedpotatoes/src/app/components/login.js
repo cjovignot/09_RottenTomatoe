@@ -25,10 +25,12 @@ const Login = ({ isLogged, setIsLogged }) => {
       setIsLogged(true);
 
       const testIsAdmin = await axios.get(`http://localhost:3001/user/` + user_id)
+      const data2 = testIsAdmin.data[0].username;
+      Cookies.set("username", data2);
       if (testIsAdmin.data[0].isAdmin) {
-      const data = testIsAdmin.data[0].isAdmin;
-      console.log("Test Admin", data);
-        Cookies.set("isAdmin", data)
+      const data1 = testIsAdmin.data[0].isAdmin;
+      console.log("Test Admin", data1);
+        Cookies.set("isAdmin", data1);
       }
 
       toast.success("Login successful");

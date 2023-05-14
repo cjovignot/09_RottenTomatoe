@@ -13,16 +13,15 @@ const Admin = ({ setActiveComponent }) => {
     setActiveState(component);
   }
   
-  useEffect(() => {
-    const GetStats = async () => {
-       const res = await fetch(`http://localhost:3002/movies/1`, { next: { revalidate: 10 } });
+  const GetStats = async () => {
+       const res = await fetch(`http://localhost:3002/movies/1`, { next: { revalidate: 20 } });
        ;
       
       const data = await res.json();
 
       setTotalMovies(data.totalMovies);
     };
-    
+  useEffect(() => {
     GetStats();
   }, []);
 

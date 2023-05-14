@@ -56,6 +56,7 @@ const Navbar = ({router}) => {
   const handleLogout = () => {
     Cookies.remove("userId");
     Cookies.remove("isAdmin");
+    Cookies.remove("username");
     setIsLogged(false);
     setIsLoading(false);
     toast.success("Logout successful");
