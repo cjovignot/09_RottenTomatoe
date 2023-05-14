@@ -31,7 +31,20 @@ const CommentsDisplay = ({ id }) => {
             const response = await axios.post(url, newComment);
             console.log(response);
             const results = response.data;
-            setComments([...comments, newComment]);
+            fetchComments();
+            return results;
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const deleteComment = async (comment_id) => {
+        const url = `http://localhost:3002/comment/${id}/${comment_id}`;
+        try {
+            const response = await axios.delete(url);
+            console.log(response);
+            const results = response.data;
+            fetchComments();
             return results;
         } catch (error) {
             console.error(error);
@@ -54,13 +67,20 @@ const CommentsDisplay = ({ id }) => {
     return (
         <div className="mt-8">
             <h1 className="text-2xl font-bold mb-5">Comments</h1>
-            {comments?.map(({ author, content }) => (
-                <div className="chat chat-start">
+            {comments?.map(({ author, content, user_id, _id }) => (
+                <><div className="chat chat-start">
                     <div className="chat-header">
                         {author}
                     </div>
                     <div className="chat-bubble">{content}</div>
-                </div>
+                </div> {user_id === userId && (
+            <button onClick={async () => {
+                        await deleteComment(_id);
+                    }} 
+                    className="btn btn-xs btn-error scale-75 mb-1">
+                        Delete</button>
+        )}</>
+                
             ))}
             <div className="form-control scale-90 mt-10">
                 <label className="label">
