@@ -8,13 +8,14 @@ const CommentsDisplay = ({ id }) => {
     const [userName, setuserName] = useState(Cookies.get('username'));
     const [userId, setuserId] = useState(Cookies.get('userId'));
     const [comments, setComments] = useState([]);
-
-
+ 
     const fetchComments = async () => {
             const url = `http://localhost:3002/movie/${id}`;
             try {
                 const response = await axios.get(url);
                 setComments(response.data.movie.comments);
+                    setuserName(Cookies.get('username'));
+                    setuserId(Cookies.get('userId'));
             } catch (error) {
                 console.error(error);
             }
@@ -79,7 +80,15 @@ const CommentsDisplay = ({ id }) => {
                     }} 
                     className="btn btn-xs btn-error scale-75 mb-1">
                         Delete</button>
-        )}</>
+        )}
+        {!user_id && (
+            <button onClick={async () => {
+                        await deleteComment(_id);
+                    }} 
+                    className="btn btn-xs btn-error scale-75 mb-1">
+                        Delete</button>
+        )}
+        </>
                 
             ))}
             <div className="form-control scale-90 mt-10">
